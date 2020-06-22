@@ -1,0 +1,754 @@
+% in this file, the slides for section 8F
+\section{8F - Stretching, Shrinking and Completeness}
+
+\subsection{Search Completeness Lemma}
+\begin{frame}{Search Completeness Lemma}
+\begin{lemma}[8F1 in Hindley's]
+Part (iii) of the search theorem 8C5 holds; i.e. if $\tau$ is composite and $d \ge 0$, then:
+\begin{equation*}
+    Long(\tau, d) \subseteq \mathcal{A}(\tau, \le  d+1)
+\end{equation*}
+\end{lemma}
+
+\medskip 
+
+The way to prove the lemma would be by induction on $d$, however to make the induction hypothesis work, we need to strength it a bit...
+\end{frame}
+
+\begin{frame}{An Auxiliary Lemma For Completeness}
+\begin{lemma}
+\label{aux_completeness}
+Let $\mathbb{L}^{*}(\tau, d)$ be the set of all long typed closed nf-schemes $X^\tau$ such that $Depth(X^\tau)=d$ and 
+\begin{enumerate}
+    \item $X^\tau$ is proper and all its meta-variables have depth $d$ in $X^\tau$.
+    \item all subarguments with depth $d$ in $X^\tau$ are meta-variables. 
+\end{enumerate}
+
+Then,
+\setcounter{equation}{0}
+\begin{equation}
+\mathbb{L}^{*}(\tau, d) \subseteq \mathcal{A}(\tau, \le d)
+\end{equation}
+and 
+\begin{equation}
+Long(\tau, d) \subseteq \mathcal{A}(\tau, \le d+1)
+\end{equation}
+where (1) is understood modulo renaming of meta-variables. 
+\end{lemma}
+\end{frame}
+
+\begin{frame}[allowframebreaks]{An Auxiliary Lemma For Completeness}
+\begin{proof}
+\pf \ The proof is by induction on $d$: 
+\step{1}{\textbf{Basis: } d = 0.}
+\begin{proof} 
+\step{1-1}{$\mathbb{L}^{*}(\tau, 0) \subseteq \mathcal{A}(\tau, 0)$}
+\begin{proof}
+\step{1-1-1}{\letPfkwd \ $X^\tau \in \mathbb{L}^{*}(\tau, d)$, with $d = 0$.}
+\step{1-1-2}{$X^\tau$ is a meta-variable, as the only proper nf-schemes with depth 0 are meta-variables.}
+\step{1-1-3}{$\mathcal{A}(\tau, 0) = \{ V^\tau \}$, by step 0 of the search algorithm (8C6).}
+\step{1-1-4}{Renaming the meta-variable $X^\tau$ to $V^\tau$ we see the result holds.}
+\end{proof}
+
+\medskip 
+\step{1-2}{$Long(\tau, 0) \subseteq \mathcal{A}(\tau, \le 1)$}
+\begin{proof}
+\step{1-2-1}{\letPfkwd \ $M^\tau \in Long(\tau, 0)$, with $\tau \equiv \tau_1 \rightarrow \ldots \rightarrow \tau_m \rightarrow e \ \ \ (m \geq 1)$}
+\step{1-2-2}{$M^\tau$ has form $\lambda y_{1}^{\tau_1} \ldots y_{m}^{\tau_m}.y_{i}^{\tau_i}$ with $1 \leq i \leq m, \tau_i \equiv e$.}
+\step{1-2-3}{$\mathcal{A}(\tau, 0) = \{ V^\tau \}$, by step 0 of the search algorithm (8C6).}
+\step{1-2-4}{The search algorithm 8C6 Step 1:Part IIa1 adds $M^\tau$ (it may be necessary a renaming of bound variables) to $\mathcal{A}(\tau, 1)$.}
+\begin{proof}
+Notice that the condition that the tail of $\tau_i$ (which is $\tau_i \equiv e$ itself) is isomorphic to the tail of $\tau$ (which is $e$) is indeed satisfied.
+\end{proof}
+\end{proof}
+\end{proof} 
+
+\medskip
+
+\step{2}{\textbf{Induction Step:} $d$ to $d+1$.}
+\begin{proof}
+\step{2-1}{$\mathbb{L}^{*}(\tau, d+1) \subseteq \mathcal{A}(\tau, \leq d+1)$}
+\begin{proof}
+\step{2-1-1}{\letPfkwd \ $X \in \mathbb{L}^{*}(\tau, d+1)$.}
+\step{2-1-2}{\letPfkwd \ \underbar{$W_1$}, \ldots, \underbar{$W_r$} with $r \geq 1$ the subarguments of $X$ of depth $d$ and let $X'$ be the result of replacing each \underbar{$W_i$} in $X$ by a distinct new meta-variable \underbar{$V_i$} of the same type as \underbar{$W_i$.}}
+\begin{proof}
+\step{2-1-2-1}{Since $X \in \mathbb{L}^{*}(\tau, d+1)$, $Depth(X) = d + 1$.}
+\step{2-1-2-2}{By 8E3.1(ii), $X$ has a subargument whose depth in $X$ is $d+1$.}
+\step{2-1-2-3}{By 8E4.1, $X$ has a subargument whose depth in $X$ is $d$.}
+\step{2-1-2-4}{Therefore, if \underbar{$W_1$}, \ldots, \underbar{$W_r$} are the subarguments of $X$ of depth $d$, we must have $r \geq 1$.}
+\end{proof}
+
+\framebreak
+
+\step{2-1-3}{$X' \in \mathbb{L}^{*}(\tau, d)$.}
+\begin{proof}
+\step{2-1-3-1}{$X'$ is a nf-scheme.}
+By definition. Notice that each new meta-variable \underbar{$V_i$} will occur in an argument position because each \underbar{$W_i$} is a subargument.
+
+\medskip
+
+\step{2-1-3-2}{$X'$ is long, closed and has depth $d$.}
+$X'$ is long since $X$ is long and each replacement of \underbar{$W_i$} by \underbar{$V_i$} preserves type. It is closed since $X$ was closed and each replacement of \underbar{$W_i$} by \underbar{$V_i$} adds no free variable. It has depth $d$ as every subargument of depth $d$ is a meta-variable.
+
+\medskip
+
+\step{2-1-3-3}{$X'$ is proper and all its meta-variables have depth $d$ in $X'$.}
+The proof is by contradiction. If $X'$ contained a meta-variable occurrence \underbar{$V$} at a depth $< d$, such a \underbar{$V$} could not be a \underbar{$V_i$} and hence would also occur in $X$ at a depth $< d$. This contradicts the fact that $X$ is proper and all its meta-variables have depth $d$ in $X$. 
+
+\medskip
+
+\step{2-1-3-4}{All subarguments with depth $d$ in $X'$ are meta-variables.}
+By the construction of $X'$. 
+
+\end{proof}
+
+\step{2-1-4}{There is a $X'' \in \mathcal{A}(\tau, \leq d)$ that is identical to $X'$ except perhaps for alphabetic variations of meta-variables.}
+By the induction hypothesis, since $X' \in \mathbb{L}^{*}(\tau, d)$.
+
+\medskip
+
+\step{2-1-5}{Apply Step d+1 of Algorithm 8C6 to each $V_i$ in $X''$. The algorithm will give $X$ as an extension of $X''$.}
+\begin{proof} 
+\step{2-1-5-1}{Each $W_i$ has form $W_i \equiv \lambda x_{i, 1} \ldots x_{i, m_i}.y_i V_{i, 1} \ldots V_{i, n_i}$}
+Since $Depth(X) = d+1$, we have $Depth(W_i) \le 1$. Since $X$ satisfies the conditions (1) of $\mathbb{L}^{*}(\tau, d+1)$, $W_i$ is not a meta-variable. Since $X$ satisfies the condition (2) of $\mathbb{L}^{*}(\tau, d+1)$, the result holds. 
+
+\medskip
+
+\step{2-1-5-2}{By the form of $W_i$ (see Step \stepref{2-1-5-1}) and the algorithm 8C6, each \underbar{$W_i$} will be a suitable replacement for \underbar{$V_i$}.}
+\step{2-1-5-3}{X is an extension of $X''$.}
+\end{proof} 
+
+\medskip
+
+\step{2-1-6}{$X \in \mathcal{A}(\tau, \leq d+1)$.}
+
+\framebreak
+
+\end{proof}
+
+\step{2-2}{$Long(\tau, d+1) \subseteq \mathcal{A}(\tau, \le d+2)$}
+\begin{proof}
+\step{2-2-1}{\letPfkwd \ $M \in Long(\tau, d+1)$.}
+\step{2-2-2}{\letPfkwd \ \underbar{$U_1$}, \ldots, \underbar{$U_r$} with $r \geq 1$ be the subarguments of $M$, without repetition, whose depth in $M$ is $d+1$.}
+By 8E3.1, M has a subargument whose depth in $M$ is $d+1$. Therefore, $r \geq 1$.
+
+\medskip 
+
+\step{2-2-3}{Each $U_i$ is of the form $U_i \equiv \lambda x_{i, 1} \ldots x_{i, m_i}.y_i$}
+Since $Depth(M) = d+1$, each $U_i$ must have depth 0 and we conclude. 
+
+\medskip
+
+\step{2-2-4}{\letPfkwd \ $M'$ be the result of replacing each \underbar{$U_i$} in M by a distinct new meta-variable \underbar{$V_i$} with the same type as \underbar{$U_i$}.}
+
+\medskip 
+
+\step{2-2-5}{$M' \in \mathbb{L}^*(\tau, d+1)$.}
+\begin{proof}
+\step{2-2-5-1}{$M'$ is a nf-scheme.}
+Because $M$ is a nf-scheme and the replacement of \underbar{$U_i$} by \underbar{$V_i$} preserves the restrictions necessary for a nf-scheme. 
+\medskip
+
+\step{2-2-5-2.1}{$M'$ is long and closed.}
+Since $M$ is long and closed and each replacement
+of \underbar{$U_i$} by \underbar{$V_i$} preserves type and adds no free variables, we conclude that $M'$ is long and closed respectively. 
+
+\medskip
+
+\step{2-2-5-2.2}{$M'$ has depth $d+1$.}
+When going from $M$ to $M'$ all subarguments whose depth in $M$ was $d+1$ had depth 0 (when viewed as terms, instead of subarguments of $M$) and were replaced by a meta-variable, of depth 0. Therefore, $Depth(M') = Depth(M) = d+1$.
+
+\medskip
+
+\step{2-2-5-3}{$M'$ is proper and all it's meta-variables have depth $d+1$ in $M'$.}
+Because this result holds for $M$ and all meta-variables introduced replace subarguments whose depth in $M$ was $d+1$.
+
+\medskip 
+
+\step{2-2-5-4}{All subarguments with depth $d+1$ in $M'$ are meta-variables.}
+Because all the subarguments of depth $d+1$ in $M$ were replaced by meta-variables to obtain $M'$. 
+\end{proof}
+
+\medskip
+
+
+\step{2-2-6}{There is a $M''$, differing from $M'$ only by renaming meta-variables, such that $M'' \in \mathcal{A}(\tau, \le d+1)$.}
+Because $\mathbb{L}^*(\tau, d+1) \subseteq \mathcal{A}(\tau, \leq d+1)$ (see Step \stepref{2-1})
+
+\medskip 
+
+\step{2-2-7}{Applying Step $d+2$ of Algorithm 8C6 to $M''$ will give us that $M$ is an extension of $M''$.}
+By the Algorithm 8C6, since each \underbar{$U_i$} is a suitable replacement for \underbar{$V_i$} in $M''$.
+
+\medskip 
+
+\step{2-2-8}{$M \in \mathcal{A}(\tau, \le d+2)$.}
+\end{proof}
+
+
+\end{proof}
+
+\end{proof} 
+\end{frame}
+
+\begin{frame}{Search Completeness Lemma}
+\begin{lemma}[8F1 in Hindley's]
+Part (iii) of the search theorem 8C5 holds; i.e. if $\tau$ is composite and $d \ge 0$, then:
+\begin{equation*}
+    Long(\tau, d) \subseteq \mathcal{A}(\tau, \le  d+1)
+\end{equation*}
+\end{lemma}
+
+\begin{proof}
+\pf \ By Result (2) of Lemma \ref{aux_completeness}.
+\end{proof}
+\end{frame}
+
+
+\subsection{Stretching Lemma}
+\begin{frame}{Detailed Stretching Lemma}
+\begin{lemma}[8F2 in Hindley's]
+\label{stretching_lemma}
+If $Long(\tau)$ has a member $M^\tau$ with depth $ \geq ||\tau||$ then: 
+\begin{enumerate}
+    \item there exists $(M^{*})^{\tau} \in Long(\tau)$ with $Depth((M^{*})^{\tau}) \geq Depth(M^\tau)+1$, 
+    \item $Long(\tau)$ is infinite.
+\end{enumerate}
+\end{lemma}
+\end{frame}
+
+\begin{frame}[allowframebreaks]{Proof of Detailed Stretching Lemma}
+\begin{proof}
+\pf 
+\step{1}{There exists $(M^{*})^{\tau} \in Long(\tau)$ with $Depth((M^{*})^{\tau}) \geq Depth(M^\tau)+1$.}
+\begin{proof}
+
+\medskip
+
+\step{1-1}{\letPfkwd \ $M$ be a typed closed long $\beta$-nf with type $\tau$ and without bound-variable clashes. \letPfkwd \ $d = Depth(M) \geq || \tau || \geq 1$.}
+
+\medskip
+
+\step{1-2}{\letPfkwd \ $\langle$ \underbar{$N_0$}, \ldots, \underbar{$N_d$} $\rangle$ be an argument-branch of length $d$. Here $\underline{N}_0 \equiv \underbar{$M$}$ and $\underline{N}_{i+1}$ is an argument of $N_i$.}
+
+\medskip
+
+\step{1-3}{Each $N_i$ has form:
+\begin{equation*}
+    \lambda x_{i, 1} \ldots x_{i, m_i}.y_{i} P_{i, 1} \ldots P_{i, n_i}
+    \tag{$m_i, n_i \geq 0$.}
+\end{equation*}
+}
+
+\medskip
+
+\step{1-4}{\letPfkwd \ \underbar{$B_i$} be the body of $N_i$ for $i = 0, \ldots, d$. That is: 
+\begin{equation*}
+    \underbar{$B_i$} \equiv y_{i} P_{i, 1} \ldots P_{i, n_i}
+\end{equation*}
+}
+
+\framebreak
+
+\step{1-5}{At least two of these \underbar{$B_i$} have the same type.}
+\begin{proof}
+\step{1-5-1}{The type of each $B_i$ is an atom, since $N_i$ is long.}
+\step{1-5-2}{Each one of this atoms occur in $\tau$, by 2B3(i).}
+\step{1-5-3}{The number of type-variables in $\tau$ is $|| \tau || \leq d$ (by hypothesis).}
+\step{1-5-4}{Since there are $d+1$ components 
+\underbar{$B_0$}, \ldots, \underbar{$B_d$} at least two of these must have the same type.}
+\end{proof}
+
+\medskip 
+
+\step{1-6}{\letPfkwd \ $\underbar{B}_p$ and $\underbar{B}_{p+r}$, with $r \geq 1$ be a pair with the same type. \letPfkwd \ $M^*$ be the result of replacing $\underbar{B}_{p+r}$ in $M$ by a copy of $\underbar{B}_p$ (after changing bound variables in this copy to avoid clashes).}
+
+\framebreak 
+
+\step{1-7}{$Depth(M^*) \geq d+1$.}
+\begin{proof}
+\step{1-7-1}{$Depth(B_p) \geq r + Depth(B_{p+r})$.}
+
+Since $\underbar{B}_p$ properly contains $\underbar{B}_{p+r}$ and $B_{p+r}$, when seeing as a subargument of $B_p$, has depth $r$ in $B_p$.
+
+\medskip 
+
+\step{1-7-2}{$M^*$ has an argument-branch with length $d+r$.}
+
+The members of the argument-branch are: 
+\begin{equation*}
+    \underbar{N}_{0}^{*}, \ldots, \underbar{N}_{p+r}^*, 
+    \underbar{N}_{p+1}^{o}, \ldots \underbar{N}_{d}^{o}
+\end{equation*}
+
+\smallskip 
+
+where for $0 \leq i \leq p+r$ each $\underbar{N}_{i}^{*}$ has the same position in $M^*$ as $\underbar{N}_i$ had in $M$ and for $p+1 \leq j \leq d$ we have $N_{j}^{o} \equiv N_j$.
+
+\medskip 
+
+\step{1-7-3}{$Depth(M^*) \geq d + r \geq d + 1$.}
+$Depth(M^*) \geq d + r$ by Step \stepref{1-7-2} and 8E4.1 and $d + r \geq d + 1$ since $r \geq 1$ (Step \stepref{1-6}).
+
+\end{proof} 
+
+\framebreak 
+
+\step{1-8}{$M^*$ is indeed a long typed term.}
+\begin{proof}
+\step{1-8-1}{\letPfkwd \ $\Gamma_i$ be the context that assigns to the initial abstractors of $N_i$ the types they have in $M$.}
+\medskip 
+\step{1-8-2}{The set $Con(B_p) \cup Con(M) \cup \Gamma_0 \cup \ldots \cup \Gamma_{p+r}$ is consistent.}
+\begin{proof}
+\step{1-8-2-1}{$\Gamma_0 \cup \ldots \cup \Gamma_d$ is consistent.}
+
+Since $M$ has no bound variable clashes, the variables in $\Gamma_0, \ldots, \Gamma_d$ are all distinct. 
+
+\medskip
+
+\step{1-8-2-2}{$Con(B_p) \subseteq \Gamma_0 \cup \ldots \cup \Gamma_d$.}
+\begin{proof}
+\noindent
+\step{1-8-2-2-1}{Every variable free in $B_p$ is bound in one of $N_0, \ldots, N_p$ because $M$ is closed and \underbar{$B_p$} is in \underbar{$N_p$}.} 
+\step{1-8-2-2-2}{Therefore, by the definition of typed term (5A1) we get $B_p \in \mathbb{TT}(\Gamma_0, \ldots, \Gamma_p)$.} 
+\step{1-8-2-2-3}{By the definition of $Con()$ we obtain $Con(B_p) \subseteq \Gamma_0 \cup \ldots \cup \Gamma_p$.}
+\step{1-8-2-2-4}{$\Gamma_0 \cup \ldots \cup \Gamma_p \subseteq \Gamma_0 \cup \ldots \cup \Gamma_d$.}
+\end{proof}
+
+\medskip 
+
+\step{1-8-2-3}{$Con(M) \subseteq \Gamma_0 \cup \ldots \cup \Gamma_d$.}
+
+Since $M$ is closed, $Con(M) = \emptyset$.
+
+\medskip 
+
+\step{1-8-2-4}{$\Gamma_0 \cup \ldots \cup \Gamma_{p+r} \subseteq \Gamma_0 \cup \ldots \cup \Gamma_d$.}
+\end{proof}
+
+\medskip
+
+\step{1-8-3}{Since $M$ is a genuine typed term and Step \stepref{1-8-2} holds and the abstractors in $M$ whose scope contain $\underbar{B}_{p+r}$, are exactly the initial abstractors of $N_0, \ldots, N_{p+r}$ we can apply Lemma 5B2.1(ii) and conclude that $M^*$ is a genuine typed term.}
+
+\medskip 
+
+\step{1-8-4}{$M^*$ is long since $M$ is long and in the substitution of $\underline{B}_{p+r}$ by $\underline{B}_p$ the types of $\underline{B}_{p+r}$ and $\underline{B}_p$ are the same.} 
+
+\medskip 
+
+\step{1-8-5}{$M^*$ is closed since $M$ is closed and the substitution of $\underline{B}_{p+r}$ by $\underline{B}_p$ has not removed any abstractor.}
+\end{proof}
+
+\end{proof}
+
+\framebreak
+
+\step{2}{$Long(\tau)$ is infinite.}
+By repetition of Step \stepref{1}.
+\end{proof}
+\end{frame}
+
+\subsection{Shrinking Lemma}
+\begin{frame}{Detailed Shrinking Lemma}
+\begin{lemma}[8F3 in Hindley's]
+If $Long(\tau)$ has a member $M^\tau$ with depth $\geq \mathbb{D}(\tau)$ then 
+\begin{enumerate}
+\item it has a member $M^{* \tau}$ with 
+\begin{equation*}
+Depth(M^\tau) - || \tau || \leq Depth(M^{* \tau}) < Depth(M^{\tau})
+\end{equation*}
+    
+\item it has a member $N^\tau$ with 
+\begin{equation*}
+    \mathbb{D}(\tau) - || \tau || \leq Depth(N^\tau) < \mathbb{D}(\tau)
+\end{equation*}
+
+\end{enumerate}
+
+\end{lemma}
+\end{frame}
+
+
+\begin{frame}[allowframebreaks]{Proof of Detailed Shrinking Lemma} 
+\begin{proof}
+\step{1}{If $Long(\tau)$ has a member $M^\tau$ with depth $\geq \mathbb{D}(\tau)$ then 
+it has a member $M^{* \tau}$ with: 
+\begin{equation*}
+Depth(M^\tau) - || \tau || \leq Depth(M^{* \tau}) < Depth(M^{\tau})
+\end{equation*}}
+
+\begin{proof}
+\medskip 
+
+\step{1-1}{\letPfkwd \ $M$ be a member of $Long(\tau)$ without bound-variable clashes.}
+
+\medskip 
+
+\step{1-2}{\letPfkwd \ $d = Depth(M)$. $d \geq \mathbb{D}(\tau) \geq 2$.}
+\begin{proof}
+\step{1-2-1}{$d = Depth(M) > \mathbb{D}(\tau)$ by hypothesis.}
+\step{1-2-2}{By Definition, $\mathbb{D}(\tau) = |\tau| \times || \tau ||$.}
+\step{1-2-3}{$|\tau| \geq 2$ since $\tau$ is composite. Notice that $\tau$ must be composite since atomic types have no inhabitants.}
+\step{1-2-4}{$\mathbb{D}(\tau) \geq 2$.}
+\end{proof}
+
+\medskip 
+
+\framebreak
+
+\step{1-3}{Consider any argument-branch of $M$ with lenght $d$. It has form 
+\begin{equation*}
+    \langle N_0, \ldots, N_d \rangle 
+\end{equation*}
+where $\underbar{N}_0 \equiv \underbar{M}$ and $\underbar{N}_{i+1}$ is an argument of $\underbar{N}_i$ for $i = 0, \ldots, d-1$. We will shrink this branch.
+}
+By 8E4.1, since $Depth(M) = d$, M has at least one argument-branch with length $d$.
+
+\medskip 
+
+\step{1-4}{Each $N_i$ has form 
+\begin{equation*}
+    N_i \equiv \lambda x_{i, 1} \ldots x_{i, m_i}. y_i P_{i, 1} \ldots P_{i, n_i}
+    \tag{$m_{i}, n_{i} \geq 0$}
+\end{equation*}
+}
+
+\medskip 
+
+\step{1-5}{\letPfkwd \  $\rho_i \equiv \rho_{i, 1} \rightarrow \ldots \rightarrow \rho_{i, m_i} \rightarrow a_i$ be the type of $N_i$.}
+
+\medskip 
+
+\step{1-6}{$IAT(N_i) = \langle \rho_{i, 1}, \ldots, \rho_{i, m_i} \rangle$.}
+Since $\underbar{N}_i$ is long, the types of $x_{i, 1}, x_{i, 2}, \ldots $ are exactly $\rho_{i, 1}, \rho_{i, 2}, \ldots$. By the definition of $IAT$ we obtain  $IAT(N_i) = \langle \rho_{i, 1}, \ldots, \rho_{i, m_i} \rangle$. 
+\medskip 
+
+\step{1-7}{\letPfkwd \ $\underbar{B}_i$ be the body of $N_i$, just as in the proof of Lemma 8F2 (the previous lemma). The type of $\underbar{B}_i$ is $a_i$.}
+Since the type of $\underbar{B}_i$ is the tail of the type of $\underbar{N}_i$.
+
+\medskip 
+
+\step{1-8}{\letPfkwd \ the sequence $d_0, d_1, \ldots$ be defined as follows. $d_0 = 0$. $d_{j+1}$ is the least index greater than $d_j$ such that $IAT(N_{d_{j+1}})$ differs from all of: 
+\begin{equation*}
+    IAT(N_{d_0}), \ldots, IAT(N_{d_j})
+\end{equation*}
+.}
+
+\medskip 
+
+\step{1-9}{\letPfkwd \ $n$ be the greatest integer such that $d_n$ is defined.}
+
+\medskip 
+
+\step{1-10}{$d_0, \ldots, d_n$ partition the set $\{0, 1, \ldots, d\}$ into the following $n+1$, non empty sets, which will be called 
+\textbf{IAT-intervals}:
+\begin{align*}
+\mathbb{I}_j &= \{ d_j, d_j + 1, \ldots, d_{j+1} - 1 \} \tag{$0 \leq j \leq n-1$} \\ 
+\mathbb{I}_n &= \{ d_n, d_n + 1, \ldots, d \}
+\end{align*}
+    
+    
+}
+
+\medskip 
+
+\step{1-11}{If $\mathbb{I}_j$ contains two numbers $p$ and $p+r$, with $r \geq 1$ and $B_p$ and $B_{p+r}$ have the same type we shal call $\langle p, p+r \rangle$ a \textbf{tail-repetition}. It will be called \textbf{minimal} iff there is no other tail-repetition $\langle p', q' \rangle$ with $p \leq p' < q' \leq p+r$.}
+
+\framebreak 
+
+\step{1-12}{At least one $IAT$-interval contains a tail-repetition.}
+\begin{proof}
+\step{1-12-1}{Suppose, by contradiction, that no interval contained a tail-repetition.}
+
+\medskip
+
+\step{1-12-2}{An $\mathbb{I}_j$ that contains no tail-repetition must have $\leq || \tau||$ members.}
+\begin{proof}
+\step{1-12-2-1}{For such an $\mathbb{I}_j$, the atoms: 
+\begin{equation*}
+    a_{d_j}, \ldots, a_{d_{j+1} - 1}
+\end{equation*}
+must all be distinct.}
+
+\step{1-12-2-2}{By Step \stepref{1-5}, each $a_i$ occurs in $\rho_i$.}
+
+\step{1-12-2-3}{By 8E7, $\rho_i$ occurs in $\tau$. So, $a_i$ occurs in $\tau$.}
+
+\step{1-12-2-4}{By definition, there are only $|| \tau ||$ distinct atoms in $\tau$.}
+
+\step{1-12-2-5}{Hence, $\mathbb{I}_j$ has $\leq || \tau ||$ members.}
+
+\end{proof}
+
+\framebreak
+
+\step{1-12-3}{Since there are $n+1$ $IAT$ intervals in the given branch, the branch would have $\le (n+1) \times || \tau ||$ members.}
+
+\medskip 
+
+\step{1-12-4}{$n + 1 \leq |\tau|$. So, the branch would have $\leq |\tau| \times || \tau ||$ members.}
+\begin{proof} 
+\medskip 
+
+\step{1-12-4-1}{Since our argument-branch has $d$ members after $\underbar{N}_0$, we have $n \leq d$ and $d_n \leq d$.}
+
+\medskip 
+
+\step{1-12-4-2}{$0 = d_0 < d_1 < \ldots < d_n \leq d$.}
+
+\medskip 
+
+\step{1-12-4-3}{For each $i$, $IAT(N_i)$ is identical to one of: 
+\begin{equation*}
+    IAT(N_{d_0}), IAT(N_{d_1}), \ldots, IAT(N_{d_n})
+\end{equation*}
+where each one of the $IAT$'s in the equation above are distinct. 
+}
+
+\medskip 
+
+\step{1-12-4-4}{$n+1 \leq \# (NSS(\tau)) + 1$}
+By 8E7, each one of the $n+1$ $IAT's$ are empty or members of $NSS(\tau)$. Since they are distinct, at most one of them is empty.
+
+\medskip 
+
+\step{1-12-4-5}{$\#(NSS(\tau)) \leq |\tau| - 1$}
+By 9E9.3(ii)
+\end{proof}
+
+
+\step{1-12-5}{However the branch has $d+1$ members and using Step \stepref{1-2} we obtain \begin{equation*}
+    d + 1 = Depth(M) + 1 \geq \mathbb{D}(\tau) + 1 > |\tau| \times || \tau ||
+\end{equation*}
+which contradicts Step \stepref{1-12-4}.}
+\end{proof}
+
+
+\medskip 
+
+\step{1-13}{We start to build $M^*$ as follows. In the given branch take the last $\mathbb{I}_j$ containing a tail-repetition, choose a minimal tail-repetition $\langle p, p+r \rangle$ in it and change M to a new term M' by replacing $B_p$ by $B_{p+r}$.}
+
+\medskip 
+
+\framebreak
+
+\step{1-14}{$M'$ is a genuine typed term. $M'$ is a long $\beta$-nf with the same type as $M$. Also $|M'| < |M|$.}
+\begin{proof}
+\step{1-14-1}{$M'$ is a genuine typed term, with the same type as $M$.}
+\begin{proof}
+We repeat the argument used in the proof of the Stretching Lemma (8F2):
+
+\step{1-14-1-1}{\letPfkwd \ $\Gamma_i$ be the context that assigns to the initial abstractors of $N_i$ the types they have in $M$.}
+
+\medskip 
+
+\step{1-14-1-2}{The set $Con(B_{p+r}) \cup Con(M) \cup \Gamma_0 \cup \ldots \cup \Gamma_p$ is consistent.}
+\begin{proof}
+\noindent
+\step{1-14-1-2-1}{$\Gamma_0 \cup \ldots \cup \Gamma_d$ is consistent.}
+
+Since $M$ has no bound variable clashes, the variables in $\Gamma_0, \ldots, \Gamma_d$ are all distinct. 
+
+\medskip
+
+\step{1-14-1-2-2}{$Con(B_{p+r}) \subseteq \Gamma_0 \cup \ldots \cup \Gamma_d$.}
+\begin{proof}
+\noindent
+\step{1-14-1-2-2-1}{Every variable free in $B_{p+r}$ is bound in one of $N_0, \ldots, N_{p+r}$ because $M$ is closed and $\underbar{B}_{p+r}$ is in $\underbar{N}_{p+r}$.}
+
+\step{1-14-1-2-2-2}{Therefore, by the definition of typed term (5A1) we get $B_{p+r} \in \mathbb{TT}(\Gamma_0 \cup \ldots \cup  \Gamma_{p+r})$.} 
+
+\step{1-14-1-2-2-3}{By the definition of $Con()$ we obtain $Con(B_{p+r}) \subseteq \Gamma_0 \cup \ldots \cup \Gamma_{p+r}$.}
+
+\step{1-14-1-2-2-4}{$\Gamma_0 \cup \ldots \cup \Gamma_{p+r} \subseteq \Gamma_0 \cup \ldots \cup \Gamma_d$.}
+\end{proof}
+
+\medskip 
+
+\step{1-14-1-2-3}{$Con(M) \subseteq \Gamma_0 \cup \ldots \cup \Gamma_d$.}
+
+Since $M$ is closed, $Con(M) = \emptyset$.
+
+\medskip 
+
+\step{1-14-1-2-4}{$\Gamma_0 \cup \ldots \cup \Gamma_{p+r} \subseteq \Gamma_0 \cup \ldots \cup \Gamma_d$.}
+\end{proof}
+
+\medskip
+
+\step{1-14-1-3}{Since $M$ is a genuine typed term and Step \stepref{1-14-1-2} holds and the abstractors in $M$ whose scope contain $\underbar{B}_{p}$, are exactly the initial abstractors of $N_0, \ldots, N_{p}$ we can apply Lemma 5B2.1(ii) and conclude that $M'$ is a genuine typed term with the same type as $M$.}
+\end{proof}
+
+\framebreak
+
+\step{1-14-2}{$M'$ is a long $\beta$-nf.}
+Since $M$ is a long $\beta$-nf and $B_p$ and $B_{p+r}$ have the same type. 
+
+\medskip 
+
+\step{1-14-3}{$|M'| < |M|$.}
+Since $B_p$ properly contains $B_{p+r}$ we have $|B_{p+r}| < |B_p|$ and hence $|M'| < |M|$. 
+
+\end{proof}
+
+\framebreak
+
+
+\step{1-15}{Although $M'$ might not be closed, there is a procedure in which, from $M'$, we can obtain a long $\beta$-nf $M''$ with the same type and depth as $M'$ which is closed. Notice that we are not claiming that $M'$ and $M''$ are related by $\alpha$-conversion or any other way.}
+\begin{proof}
+\medskip 
+\step{1-15-1}{First, notice that $M'$ might not be closed.}
+M' might not be closed because the change from $M$ to $M'$ has removed the initial abstractors of $\underbar{N}_{p+1}, \ldots, \underbar{N}_{p+r}$ from $M$, and so some free variables occurrences in $\underbar{B}_{p+r}$ that were bound in $M$ might now be free in $M'$.
+
+\medskip 
+
+\step{1-15-2}{\letPfkwd \ $\underbar{v}$ be free in the occurrence of $\underbar{B}_{p+r}$ in $M'$ that has replaced $\underbar{B}_p$ in $M$. \letPfkwd \ $\underbar{v}$ be also free in $M'$.}
+
+\framebreak
+\step{1-15-3}{There is a variable in $x_{d_{q}, k} \in IA(N_{d_q})$, with $d_q \leq p$ that has the same type as $v$.}
+
+\begin{proof}
+\medskip
+
+\step{1-15-3-1}{$v$ occurs in $IA(\underbar{N}_h)$ for some $h$ with $p+1 \leq h \leq p + r$.}
+Since $\underbar{v}$ is free in $M'$, $v$ does not occur in a covering abstractor of this occurrence of $B_{p+r}$ in $M'$. This covering abstractors are exactly the initial abstractors of $\underbar{N}_0, \ldots, \underbar{N}_p$ in $M$ so: 
+
+\begin{equation*}
+    v \notin IA(\underbar{N}_0) \cup \ldots \cup IA(\underbar{N}_p)
+\end{equation*}
+
+\medskip 
+
+However, $M$ is closed and therefore our $\underbar{v}$, in $M$, must be in the scope of a \underbar{$\lambda v$} in one of 
+$IA(\underbar{N}_0), \ldots, IA(\underbar{N}_{p+r})$. Hence, $v$ occurs in $IA(\underbar{N}_h)$ for some $h$ with $p+1 \leq h \leq p + r$.
+\medskip  
+
+\step{1-15-3-2}{In our notation, we have $v \equiv x_{h, k}$ for some $k \leq m_h$. Also, the type of $v$ is $\rho_{h, k} \in IAT(\underbar{N}_h)$.}
+
+\framebreak
+
+\step{1-15-3-3}{$IAT(\underbar{N}_h) = IAT(\underbar{N}_{d_q})$ for some $q \leq j$.}
+Since the tail-repetition $\langle p, p+r \rangle$ is in the interval $\mathbb{I}_j$, by our definition of $d_0, \ldots, d_n$, we get that 
+$IAT(\underbar{N}_h)$ coincides with: 
+
+\begin{equation*}
+    IAT(\underbar{N}_{d_0}), \ldots, IAT(\underbar{N}_{d_j})
+\end{equation*}
+    
+
+\medskip 
+
+\step{1-15-3-4}{Hence, there is a variable $x_{d_{q}, k} \in IA(N_{d_q})$ with the same type as $v$.}
+
+\medskip 
+
+\step{1-15-3-5}{$d_q \leq p$.}
+From Step \stepref{1-15-3-3}, we have $q \leq j$, which implies $d_q \leq d_j$. Since the tail-repetition $\langle p, p+r \rangle$ occurs in $\mathbb{I}_j$ we have $p \geq d_j$. 
+\end{proof}
+
+\framebreak
+
+\step{1-15-4}{Replace $v$ by this variable. The result will be a long $\beta$-nf with the same type and depth as $M'$ and containing one less free variable.}
+From \stepref{1-15-3}, we see that this variable is bound by an abstractor in  $N_{d_q}$, where $d_q \leq p$. Since the change from $M$ to $M'$ has only removed the initial abstractors of $\underbar{N}_{p+1}, \ldots, \underbar{N}_{p+r}$, this variable is still a bound variable in $M'$. Therefore, the result has one less free variable than $M'$. The result has the same type and depth because we substituted a variable $v$ by another variable that has the same type as $v$. 
+
+\framebreak
+
+\step{1-15-5}{By similarly replacing every variable of $\underbar{B}_{p+r}$ that is free in $M'$ by a new one which has the same type but is bound in $M'$ we obtain a long $\beta$-nf $M''$ with the same type and depth as $M'$ and which is closed.}
+\end{proof}
+
+\framebreak 
+
+\step{1-16}{$d - || \tau || \leq Depth(M'') \leq d$.}
+\begin{proof} 
+\step{1-16-1}{The number of arguments removed from the argument-branch is $r$, so our argument-branch now contains $d-r$ arguments.}
+
+\medskip 
+
+\step{1-16-2}{Hence, $d - r \leq Depth(M'') \leq d$.}
+
+\medskip 
+
+\step{1-16-3}{$r \leq || \tau ||$.}
+\begin{proof}
+By definition, there are only $|| \tau ||$ distinct atoms in $\tau$. Since the tail repetition $\langle p, p+r \rangle$ we took is minimal, we have $r \leq || \tau ||$.
+\end{proof}
+
+\medskip 
+
+\step{1-16-4}{$d - || \tau || \leq Depth(M'') \leq d$.}
+\end{proof} 
+
+
+\framebreak
+
+\step{1-17}{If $Depth(M'') < d$ define $M^* \equiv M''$. If not, select a branch in $M''$ with length $d$ and apply the removal procedure to it (the removal procedure is the one that from $M$ produced $M''$). Keep doing this to shorten the branches with length $d$ until there are none left. Define $M^*$ to be the first term produced by this procedure whose depth is less than $d$. 
+}
+
+\medskip 
+
+\step{1-18}{Then: 
+\begin{equation*}
+    d - || \tau || \leq Depth(M^*) < d
+\end{equation*}
+as required.}
+\end{proof}
+
+\framebreak
+
+\step{2}{If $Long(\tau)$ has a member $M^\tau$ with depth $\geq \mathbb{D}(\tau)$ then it has a member $N^\tau$ with:
+\begin{equation*}
+    \mathbb{D}(\tau) - || \tau || \leq Depth(N^\tau) < \mathbb{D}(\tau)
+\end{equation*}}
+By repeating the whole procedure described in Step \stepref{1} until you obtain an output with depth $< \mathbb{D}(\tau)$.
+
+\end{proof}
+\end{frame}
+
+\begin{frame}[allowframebreaks]{Example 8F3.1}
+    Let $\tau \equiv (a \rightarrow a) \rightarrow a \rightarrow a$, and let $M^\tau$ be a typed version of the Church numeral for the number four, i.e: 
+    \begin{equation*}
+        M^\tau \equiv (\lambda u^{a \rightarrow a} v^a .(u(u(u(uv)))))^\tau
+    \end{equation*}
+    
+    Then: $|| \tau || = 1$, $|\tau| = 4$, $\mathbb{D}(\tau) = |\tau| \times || \tau || = 4$.
+    
+    \medskip 
+    
+    Since $Depth(M) = 4$, the above shrinking procedure can be applied to $M$. There is only one argument-branch in $M$ containing four subarguments, and its members are: 
+    
+    \begin{equation*} 
+    \underline{\lambda uv.u^4 v}, \ \ \underline{u^3 v}, \ \ \underline{u^2 v}, \ \ 
+    \underline{uv}, \ \ \underline{v}
+    \end{equation*} 
+    
+    \framebreak
+    
+    Let's call them $N_0, \ldots, N_4$ respectively. We have: 
+    \begin{align*}
+        IAT(N_0) &= \langle a \rightarrow a, a \rangle \\ 
+        IAT(N_1) &= IAT(N_2) = IAT(N_3) = IAT(N_4) = \emptyset 
+    \end{align*}
+    
+    Since the only change in $IAT(N_i)$ comes at $i = 1$, using the notation of the proof of 8F3, we have: 
+    
+    \begin{equation*}
+        n = 1, \ \ d_0 = 0, \ \ d_1 = 1, \ \ \mathbb{I}_0 = \{ 0 \}, \ \ \mathbb{I}_1 = \{1, 2, 3, 4 \}
+    \end{equation*}
+    
+    There are 3 minimal repetitions in $\mathbb{I}_1$ ($\langle 1, 2 \rangle$, $\langle 2, 3 \rangle$, $\langle 3, 4 \rangle$). 
+    
+    \framebreak 
+    
+    According to our procedure, we pick the last one. We replace $\underline{uv}$ by $\underline{v}$ and this changes $M$ to: 
+    
+    \begin{equation*}
+        M^* \equiv \lambda u v. u^3 v
+    \end{equation*}
+    
+    And now, notice that $Depth(M^*) = 3 < \mathbb{D}(\tau)$. 
+\end{frame}
+
+\begin{frame}{Warning: A Limitation of the Shrinking Lemma}
+As mentioned in 8D10(iii) the proof of the shrinking lemma does not necessarily apply to restricted systems of $\lambda$-terms, for example the $\lambda I$-calculus. In fact, there is no guarantee that if we shrink a $\lambda I$-term the result will still be a $\lambda I$-term, since shrinking may cut out some variables.  
+    
+\end{frame}

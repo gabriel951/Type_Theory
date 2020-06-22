@@ -1,0 +1,99 @@
+\documentclass[10pt]{beamer}
+\usepackage[english]{babel}
+\setbeamerfont{structure}{family=\rmfamily} 
+
+\let\proof\relax
+\let\endproof\relax
+\let\qed\relax
+\usepackage{amsthm}
+
+\usepackage{graphicx}
+\usepackage{graphics}
+\usepackage{hyperref}
+\usepackage{mathtools}
+%\usepackage{coqdoc}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage[makeroom]{cancel}
+\usepackage{xcolor}
+\beamertemplatenavigationsymbolsempty
+\setbeamertemplate{blocks}[rounded][shadow=true]
+\setbeamertemplate{bibliography item}[text]
+\setbeamertemplate{caption}[numbered]
+\usetheme{default} 
+\usecolortheme{seahorse}
+\mode<presentation>
+{
+   \setbeamercovered{transparent}
+   \setbeamertemplate{items}[ball]
+   \setbeamertemplate{theorems}[numbered]
+   \setbeamertemplate{footline}[frame number]
+
+}
+
+% structured proofs a la Leslie Lamport 
+\usepackage{pf2}
+
+% slides for sections and subsections
+\AtBeginSection{\frame{\sectionpage}}
+\AtBeginSubsection{\frame{\subsectionpage}}
+
+\begin{document}
+\newtheorem{mydef}{Definition}
+\newtheorem{notation}{Notation}
+\newtheorem{lem}{Lemma}
+\newtheorem{theo}{Theorem}
+\newtheorem{col}{Colollary}
+\newtheorem{com}{Comment}
+\newtheorem{exa}{Example}
+
+% alternative definitions you may use if you want
+\newtheorem{remark}{Remark}
+
+
+
+
+\title {Topics on Hindley's Simple Type Theory*: 8E and 8F}
+
+\author[Francisca Cappellesso and Gabriel Silva]{\small {Francisca Cappellesso \& Gabriel Silva}}
+\institute{* - Presentation adapted from the work of Thiago Mendonça and Washington Ribeiro \\
+% commented by KK (put image if you want)
+%\includegraphics[scale=.08]{Amrita.jpg}\medskip\\ 
+\sc{Type Theory Class - 1/2020 - Universidade de Bras\'{i}lia - UnB} \\  
+}
+
+\date{\small June 22, 2020} 
+%--------------------------------------------------------------------------%
+\begin{frame}
+\titlepage
+\end{frame}
+%---------------------------------------------------------------------------%
+\begin{frame}{Outline of Presentation}
+    \setbeamertemplate{section in toc}[sections numbered]
+    %\setcounter{tocdepth}{1}
+    \tableofcontents
+\end{frame}
+
+%---------------------------------------------------------------------------
+
+% this is the part of the presentation done by thiago and washington, ok? 
+% by uncommenting the line below you can see the presentation they did. 
+% \include{old_presentation}
+
+% here the slides for section 8E
+\include{gabriel}
+
+% and finally, here are the slides for section 8F
+\include{francisca}
+
+% this command is such that every 
+\nocite{*}
+\begin{frame}[allowframebreaks]{References}
+\bibliographystyle{plain}
+\bibliography{biblio.bib}
+\end{frame}
+
+
+%---------------------------------------------------------------------------%
+\end{document}
+
